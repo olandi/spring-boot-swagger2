@@ -1,6 +1,7 @@
 package com.example.springbootswagger2.model;
 
 
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -12,14 +13,18 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "aircrafts", schema = "bookings", catalog = "demo")
 public class AircraftsEntity {
+    @ApiModelProperty(notes = "aircraftCode", name = "aircraftCode", required = true, value = "test aircraftCode")
     private String aircraftCode;
+    @ApiModelProperty(notes = "model of the Aircraft", name = "model", required = true, value = "test model")
     private String model;
+    @ApiModelProperty(notes = "range of the aircraft", name = "range", required = true, value = "test range")
     private int range;
 
     @Id
     @Column(name = "aircraft_code", nullable = false, length = 3)
     @Length(max = 3)
     @NotBlank
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public String getAircraftCode() {
         return aircraftCode;
     }
