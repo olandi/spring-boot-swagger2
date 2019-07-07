@@ -1,7 +1,7 @@
 package com.example.springbootswagger2.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.FutureOrPresent;
+
 
 @Entity
 @Table(name = "airports", schema = "bookings", catalog = "demo")
@@ -23,7 +23,7 @@ public class AirportsEntity {
         this.airportCode = airportCode;
     }
 
-    @FutureOrPresent
+
     @Basic
     @Column(name = "airport_name")
     public String getAirportName() {

@@ -73,11 +73,11 @@
 
 
         <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
-<!--        <dependency>
+        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>6.0.17.Final</version>
-        </dependency>-->
+        </dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
 		<dependency>

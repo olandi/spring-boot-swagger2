@@ -1,10 +1,13 @@
 package com.example.springbootswagger2.model;
 
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "aircrafts", schema = "bookings", catalog = "demo")
@@ -15,6 +18,8 @@ public class AircraftsEntity {
 
     @Id
     @Column(name = "aircraft_code", nullable = false, length = 3)
+    @Length(max = 3)
+    @NotBlank
     public String getAircraftCode() {
         return aircraftCode;
     }
