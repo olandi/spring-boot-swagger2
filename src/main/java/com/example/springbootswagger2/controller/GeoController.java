@@ -1,7 +1,6 @@
 package com.example.springbootswagger2.controller;
 
 import com.example.springbootswagger2.model.AircraftsEntity;
-import com.example.springbootswagger2.model.SeatsEntity;
 import com.example.springbootswagger2.repository.Dao;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -9,8 +8,10 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.ValidationException;
+import javax.validation.Validator;
 
 
 @Api(value = "AirCraftsEntity", description = "REST Apis related to AirCraftsEntity!!!!")
@@ -20,9 +21,12 @@ public class GeoController {
 
     private final Dao dao;
 
+    private final Validator validator;
+
     @Autowired
-    public GeoController(Dao dao) {
+    public GeoController(Dao dao, Validator validator) {
         this.dao = dao;
+        this.validator = validator;
     }
 
     @ApiOperation(value = "Get list of AirCraftsEntity ", response = Iterable.class, tags = "AirCraftsEntity")
@@ -43,18 +47,21 @@ public class GeoController {
     }*/
 
     @ApiOperation(value = "Get Aircraft ", response = AircraftsEntity.class, tags = "getAircraft")
-    @RequestMapping(value = "/aircraft/{aircraft_code}")
+    @GetMapping(value = "/aircraft/{aircraft_code}")
     public ResponseEntity getCountryById(@PathVariable("aircraft_code") Long id) {
 
-         return ResponseEntity.ok().body( dao.findOne(id));
-       // return ResponseEntity.ok().build();
+        AircraftsEntity entity = dao.findOne(id);
+        return entity != null ? ResponseEntity.ok().body(entity) : ResponseEntity.notFound().build();
     }
 
 
     @ApiOperation(value = "Put Aircraft ", response = AircraftsEntity.class, tags = "PutAircraft")
     @PutMapping(value = "/aircraft")
-    public void create(@RequestBody AircraftsEntity aircraftsEntity){
+    public void create(@RequestBody AircraftsEntity aircraftsEntity) {
         System.out.println("before creating");
+
+        if (!validator.validate(aircraftsEntity).isEmpty()) throw new ValidationException("поля не ок");
+
         dao.save(aircraftsEntity);
         System.out.println("after creating");
     }
