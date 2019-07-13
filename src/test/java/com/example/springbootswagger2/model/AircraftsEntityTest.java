@@ -25,7 +25,7 @@ public class AircraftsEntityTest {
     @Test
     public void whenAircraftsIdTooLong() {
         AircraftsEntity entity = new AircraftsEntity();
-        entity.setAircraftCode("1234");
+        entity.setAircraftCode(123L);
         entity.setModel("weg");
         entity.setRange(5);
 
@@ -36,7 +36,7 @@ public class AircraftsEntityTest {
     @Test
     public void whenAircraftsIdisBlank() {
         AircraftsEntity entity = new AircraftsEntity();
-        entity.setAircraftCode("");
+        entity.setAircraftCode(123L);
         entity.setModel("weg");
         entity.setRange(5);
 

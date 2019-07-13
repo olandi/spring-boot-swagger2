@@ -14,6 +14,6 @@ import java.util.List;
 @Transactional
 public interface Dao extends CrudRepository<AircraftsEntity, Long> {
 
-    AircraftsEntity findByAircraftCode(String tag);
+    AircraftsEntity findByAircraftCode(Long tag);
 
 }

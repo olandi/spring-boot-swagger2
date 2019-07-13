@@ -2,34 +2,37 @@ package com.example.springbootswagger2.model;
 
 
 import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import java.util.Objects;
 
 @Entity
-@Table(name = "aircrafts", schema = "bookings", catalog = "demo")
+@Table(name = "aircrafts", schema = "public")
 public class AircraftsEntity {
+
     @ApiModelProperty(notes = "aircraftCode", name = "aircraftCode", required = true, value = "test aircraftCode")
-    private String aircraftCode;
+    private Long aircraftCode;
+
+    @NotBlank
     @ApiModelProperty(notes = "model of the Aircraft", name = "model", required = true, value = "test model")
     private String model;
+
+    @NotNull
     @ApiModelProperty(notes = "range of the aircraft", name = "range", required = true, value = "test range")
-    private int range;
+    private Integer range;
 
     @Id
-    @Column(name = "aircraft_code", nullable = false, length = 3)
-    @Length(max = 3)
-    @NotBlank
+    @Column(name = "aircraft_code", nullable = false)
+/*    @Length(max = 3)
+    @NotBlank*/
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public String getAircraftCode() {
+    public Long getAircraftCode() {
         return aircraftCode;
     }
 
-    public void setAircraftCode(String aircraftCode) {
+    public void setAircraftCode(Long aircraftCode) {
         this.aircraftCode = aircraftCode;
     }
 
@@ -45,33 +48,26 @@ public class AircraftsEntity {
 
     @Basic
     @Column(name = "range", nullable = false)
-    public int getRange() {
+    public Integer getRange() {
         return range;
     }
 
-    public void setRange(int range) {
+    public void setRange(Integer range) {
         this.range = range;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        AircraftsEntity that = (AircraftsEntity) o;
-
-        if (range != that.range) return false;
-        if (aircraftCode != null ? !aircraftCode.equals(that.aircraftCode) : that.aircraftCode != null) return false;
-        if (model != null ? !model.equals(that.model) : that.model != null) return false;
-
-        return true;
+        if (!(o instanceof AircraftsEntity)) return false;
+        AircraftsEntity entity = (AircraftsEntity) o;
+        return range.equals(entity.range) &&
+                Objects.equals(aircraftCode, entity.aircraftCode) &&
+                Objects.equals(model, entity.model);
     }
 
     @Override
     public int hashCode() {
-        int result = aircraftCode != null ? aircraftCode.hashCode() : 0;
-        result = 31 * result + (model != null ? model.hashCode() : 0);
-        result = 31 * result + range;
-        return result;
+        return Objects.hash(aircraftCode, model, range);
     }
 }

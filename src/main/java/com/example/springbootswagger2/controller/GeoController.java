@@ -8,11 +8,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @Api(value = "AirCraftsEntity", description = "REST Apis related to AirCraftsEntity!!!!")
@@ -37,10 +35,29 @@ public class GeoController {
     public Iterable<AircraftsEntity> getAllCountries() {
         return dao.findAll();
     }
-
-    @ApiOperation(value = "Get Aircraft ", response = SeatsEntity.class, tags = "getAircraft")
+/*
+    @ApiOperation(value = "Get Aircraft ", response = AircraftsEntity.class, tags = "getAircraft")
     @RequestMapping(value = "/aircraft/{aircraft_code}")
-    public AircraftsEntity getCountryById(@PathVariable("aircraft_code") String id) {
-        return dao.findByAircraftCode(id);
+    public AircraftsEntity getCountryById(@PathVariable("aircraft_code") Long id) {
+        return dao.findOne(id);
+    }*/
+
+    @ApiOperation(value = "Get Aircraft ", response = AircraftsEntity.class, tags = "getAircraft")
+    @RequestMapping(value = "/aircraft/{aircraft_code}")
+    public ResponseEntity getCountryById(@PathVariable("aircraft_code") Long id) {
+
+         return ResponseEntity.ok().body( dao.findOne(id));
+       // return ResponseEntity.ok().build();
     }
+
+
+    @ApiOperation(value = "Put Aircraft ", response = AircraftsEntity.class, tags = "PutAircraft")
+    @PutMapping(value = "/aircraft")
+    public void create(@RequestBody AircraftsEntity aircraftsEntity){
+        System.out.println("before creating");
+        dao.save(aircraftsEntity);
+        System.out.println("after creating");
+    }
+
+
 }
