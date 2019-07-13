@@ -1,6 +1,8 @@
 package com.example.springbootswagger2.repository;
 
+import com.example.springbootswagger2.model.AircraftsEntity;
 import com.example.springbootswagger2.model.SeatsEntity;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -10,16 +12,8 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class Dao {
+public interface Dao extends CrudRepository<AircraftsEntity, Long> {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    AircraftsEntity findByAircraftCode(String tag);
 
-    public List<SeatsEntity> getAll() {
-        return entityManager.createQuery("from SeatsEntity c order by c. desc", SeatsEntity.class).getResultList();
-    }
-
-    public SeatsEntity getById(int id) {
-        return entityManager.find(SeatsEntity.class, id);
-    }
 }
